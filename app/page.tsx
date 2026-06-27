@@ -1,19 +1,34 @@
 "use client";
 import Card from "@/components/Card";
 import { useGetItemsQuery } from "@/services/itemApi";
-import { Item } from "@/types/cart-type";
+import { CartItem } from "@/types/cart-type";
 
 export default function Home() {
 
   const { data: items, isLoading, error } = useGetItemsQuery(undefined);
 
-  if
-    (isLoading) {
-    return <div>Loading...</div>;
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-pulse text-lg">Loading details...</div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error occurred while fetching items.</div>;
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-slate-950 text-white">
+        <div className="text-red-400">Failed to load item.</div>
+      </div>
+    );
+  }
+
+  if (!items) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-slate-950 text-white">
+        <div className="text-red-400">Item not found.</div>
+      </div>
+    );
   }
 
   return (
@@ -21,13 +36,16 @@ export default function Home() {
     <div className="container mx-auto p-4">
 
       {/* Horizontal Scroll Wrapper */}
-      <div className="flex overflow-x-auto gap-6 pb-4 scroll-smooth snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {items?.map((item: Item) => (
-          <div key={item.id} className="snap-start shrink-0">
-            <Card data={item} />
-          </div>
-        ))}
-      </div>
+      <section className="mt-2 overflow-hidden">
+
+        <div className="flex gap-5 overflow-x-auto scrollbar-hide pb-10">
+
+          {items?.map((item: CartItem) => (
+            <Card key={item.id} data={item} />
+          ))}
+
+        </div>
+      </section>
     </div>
   );
 }

@@ -1,7 +1,8 @@
 'use client';
 
 import { use } from "react";
-import { useGetItemByIdQuery } from "@/services/itemApi";
+import { useGetItemsQuery } from "@/services/itemApi";
+import { CartItem } from "@/types/cart-type";
 
 interface PageProps {
     params: Promise<{ id: string }>;
@@ -10,57 +11,60 @@ interface PageProps {
 export default function ItemDetailsPage({ params }: PageProps) {
     // Unwrap the params promise safely in Next.js
     const { id } = use(params);
-    const { data: item, error, isLoading } = useGetItemByIdQuery(id);
+    const { data: items, error, isLoading } = useGetItemsQuery(undefined);
+    const item = items?.find((candidate: CartItem) => String(candidate.id) === id);
 
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-slate-950 text-white">
+            <div className="flex items-center justify-center min-h-screen">
                 <div className="animate-pulse text-lg">Loading details...</div>
             </div>
         );
     }
 
-    if (error || !item) {
+    if (error) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-slate-950 text-white">
-                <div className="text-red-400">Failed to load item or item not found.</div>
+                <div className="text-red-400">Failed to load item.</div>
+            </div>
+        );
+    }
+
+    if (!item) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-slate-950 text-white">
+                <div className="text-red-400">Item not found.</div>
             </div>
         );
     }
 
     return (
-        <div
-            className="relative w-full min-h-screen bg-cover bg-center flex flex-col justify-end p-8 md:p-16"
-            style={{ backgroundImage: `url('${item.backgroundImageUrl}')` }}
-        >
-            {/* Absolute Overlay for text contrast */}
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent z-0" />
+        <main className="mt-10">
+            <section className="">
+                <img
+                    src={item.image_url}
+                    alt={item.title}
+                    className="w-full h-[42vh] object-cover sm:h-[48vh] lg:h-250"
+                />
+            </section>
 
-            {/* Main Details Wrapper */}
-            <div className="relative z-10 max-w-4xl space-y-6">
-                <div className="flex flex-wrap gap-2">
-                    {item.tags.map((tag, idx) => (
-                        <span
-                            key={idx}
-                            className="px-4 py-1.5 rounded-full text-xs font-bold bg-white/10 backdrop-blur-md text-white border border-white/20 uppercase tracking-wide"
-                        >
-                            {tag}
-                        </span>
-                    ))}
+            <section className="mx-auto max-w-6xl px-10 md:px-16 py-10 sm:px-6 lg:px-8">
+                <div className="max-w-4xl">
+                    <span className="inline-flex rounded-full bg-slate-900/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-white shadow-sm shadow-black/20">
+                        {item.prompt}
+                    </span>
+
+                    <h1 className="mt-6 text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl">
+                        {item.title}
+                    </h1>
+
+                    <p className="mt-6 text-base leading-8 sm:text-lg">
+                        {item.short_description}
+                    </p>
                 </div>
 
-                <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight leading-none">
-                    {item.title}
-                </h1>
 
-                <p className="text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed">
-                    {item.description}
-                </p>
-            </div>
-        </div>
+            </section>
+        </main>
     );
-}
-
-function useGetItemByIdQuery(id: string): { data: any; error: any; isLoading: any; } {
-    throw new Error("Function not implemented.");
 }

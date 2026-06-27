@@ -1,29 +1,29 @@
 'use client';
 
-import { Item } from '@/types/cart-type'
+import { CartItem } from '@/types/cart-type'
 
 import { useRouter } from 'next/navigation'
 
 
 type Props = {
-    data: Item
+    data: CartItem
 }
 
 const Card = ({ data }: Props) => {
     const router = useRouter();
     return (
-        <div className="cursor-pointer hover:bg-amber-50/20 hover:backdrop-blur-sm transition-all duration-300 p-6 rounded-lg" onClick={() => router.push(`/${data.id}`)}>
+        <div className="cursor-pointer hover:bg-amber-50/20 hover:backdrop-blur-sm transition-all duration-300 p-2 rounded-lg" onClick={() => router.push(`/${data.id}`)}>
             <div
-                className="relative w-[1000px] h-[700px] rounded-3xl p-12  bg-red-300 overflow-hidden group flex flex-col justify-top bg-cover bg-center shrink-0"
+                className="relative w-[384px] h-[561px] md:w-250 md:h-250 rounded-3xl p-5 md:p-16  bg-red-300 overflow-hidden group flex flex-col justify-top bg-cover bg-center shrink-0"
                 style={{ backgroundImage: `url('${data?.image_url}')` }}
             >
 
-                {/* Text Details - Enlarged for 1000px layout */}
+                {/* Text Details */}
                 <div className="">
-                    <h3 className=" font-extrabold bg-black p-2 text-white tracking-tight leading-none rounded-full">
-                        {data?.title}
-                    </h3>
-                    <p className="text-xl text-slate-200 leading-relaxed font-medium pt-5">
+                    <span className="inline-flex rounded-full bg-slate-900/90 text-[16px] md:text-[32px] px-4 py-2 text-white shadow-sm ">
+                        {data.prompt}
+                    </span>
+                    <p className="text-[7px] md:text-xl text-white leading-relaxed font-bold pt-5">
                         {data?.short_description}
                     </p>
                 </div>
