@@ -50,15 +50,15 @@ export default function ItemDetailsPage({ params }: PageProps) {
 
             <section className="mx-auto max-w-6xl px-10 md:px-16 py-10 sm:px-6 lg:px-8">
                 <div className="max-w-4xl">
-                    <span className="inline-flex rounded-full bg-slate-900/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-white shadow-sm shadow-black/20">
+                    <span className="inline-flex rounded-full bg-slate-900/90 text-[8.58px] md:text-[24px] px-4 py-2 text-white">
                         {item.prompt}
                     </span>
 
-                    <h1 className="mt-6 text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl">
+                    <h1 className="mt-3 md:mt-6 text-[16.09px] md:text-[45px] font-black tracking-tight sm:text-4xl lg:text-5xl">
                         {item.title}
                     </h1>
 
-                    <p className="mt-6 text-base leading-8 sm:text-lg">
+                    <p className="mt-3 md:mt-6 text-[11.44px] md:text-[32px] ">
                         {item.short_description}
                     </p>
                 </div>

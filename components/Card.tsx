@@ -20,7 +20,7 @@ const Card = ({ data }: Props) => {
 
                 {/* Text Details */}
                 <div className="">
-                    <span className="inline-flex rounded-full bg-slate-900/90 text-[16px] md:text-[32px] px-4 py-2 text-white shadow-sm ">
+                    <span className="inline-flex rounded-full bg-slate-900/90 text-[8.58px] md:text-[24px] px-4 py-2 text-white">
                         {data.prompt}
                     </span>
                     <p className="text-[7px] md:text-xl text-white leading-relaxed font-bold pt-5">
